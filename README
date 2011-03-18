@@ -1,0 +1,46 @@
+MongoTweet -- a MongoEngine+Django+TwitterAPI project to scratch an itch
+
+Requirements: 
+
+-- Django 1.2 -- http://www.djangoproject.com/
+-- MongoEngine and it's dependencies (PyMongo, etc.): http://mongoengine.org/
+-- python-twitter -- http://code.google.com/p/python-twitter/
+
+Overview:
+
+A script -- collector.py -- passes a search to the Twitter search API and returns the latest 15 pages of results. Those results are parsed and stored in a Mongo document. The information that gets stored is: The tweet author and profile photo url, the date the tweet was authored, the tweet itself and an array of words in the tweet, stripped of unimportant words like the, a, an, etc. 
+
+To be determined: What to do with this information in a forward facing fashion?
+
+Examples of what can be done, using MongoEngine's ORM, using a search for PolitiFact on Twitter:
+
+>>> from tweets.documents import Tweet
+>>> from operator import itemgetter
+>>> Tweet.objects.count()
+1689
+>>> tweet_freqs = Tweet.objects.item_frequencies('words', normalize=True)
+>>> top_words = sorted(tweet_freqs.items(), key=itemgetter(1), reverse=True)[:20]
+>>> for object in top_words:
+...     print object
+... 
+(u'watch', u'0.00003878675044604763function watch() {\n    [native code]\n}')
+(u'RT', 0.032037855868435564)
+(u'says', 0.015631060429757315)
+(u'claim', 0.015514700178419173)
+(u'PolitiFact', 0.015126832673958692)
+(u'gas', 0.014894112171282404)
+(u'@politifact:', 0.010317275618648735)
+(u'@politifact', 0.0092312466061593903)
+(u'in', 0.0091148863548212462)
+(u'more', 0.0090760996043751981)
+(u'all', 0.0088821658521449579)
+(u'Obama', 0.0086494453494686697)
+(u'GOP', 0.0081840043441160932)
+(u'finds', 0.0081064308432239971)
+(u'Americans', 0.0081064308432239971)
+(u'', 0.0078349235901016608)
+(u'have', 0.0074858428360872285)
+(u'prices', 0.0074082693351951324)
+(u'rising', 0.0072143355829648922)
+(u'400', 0.0068652548289504598)
+
