@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Tweet stats</title>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+
+	<script language="javascript" type="text/javascript" src="http://people.iola.dk/olau/flot/jquery.flot.js"></script>
+
+</head>
+<body>
+<div id="container" style="width:1000px;">
+	<div class="header" style="width:100%; height:50px;"><h1>Tweet stats</h1></div>
+	<div class="body">
+		<div class="graphic" style="float:left;">
+			<div class="graphic-header"><h3>Tweets by hour</h3></div>
+			<div id="hour-placeholder" style="width:400px;height:300px; margin-right:20px;"></div>
+		</div>
+		<div class="graphic" style="float:left;">
+			<div class="graphic-header"><h3>Tweets by day</h3></div>
+			<div id="day-placeholder" style="width:400px;height:300px"></div>
+		</div>
+		<div class="graphic" style="float:left;">
+			<div class="graphic-header" style="width:400px;"><h3>Tweets by screen name</h3></div>
+			<ul>{% for k, v in top_screens %}
+				<li>{{ k }} ({{ v }})</li>
+			{% endfor %}</ul>
+		</div>
+		<div class="graphic" style="float:left;">
+			<div class="graphic-header" style="width:400px;"><h3>Top words in tweets</h3></div>
+			<ul>{% for k, v in top_words %}
+				<li>{{ k }} ({{ v }})</li>
+			{% endfor %}</ul>
+		</div>		
+		<div style="clear:both;"></div>
+	</div>
+</div>
+	
+	
+	 
+	<script id="source" language="javascript" type="text/javascript"> 
+	$(function () {
+	    var d1 = [{% for k, v in tophours %}[{{ k }},{{ v }}]{% if forloop.last %}{% else %},{% endif %}{% endfor %}];
+	
+		var d2 = [{% for k, v in top_days %}[{{ forloop.counter }},{{ v }}]{% if forloop.last %}{% else %},{% endif %}{% endfor %}];
+		
+	    $.plot($("#hour-placeholder"), [
+	        {
+	            data: d1,
+	            lines: { show: true, fill: true },
+				points: { show: true },
+	        }
+	    ]);
+	    $.plot($("#day-placeholder"), [
+	        {
+	            data: d2,
+	            lines: { show: true, fill: true },
+				points: { show: true }
+	        }
+	    ]);
+
+	});
+	</script>
+</body>
+</html>
