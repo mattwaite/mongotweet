@@ -3,6 +3,7 @@ MongoTweet -- a MongoEngine+Django+TwitterAPI project to scratch an itch
 Requirements: 
 
 -- Django 1.2 -- http://www.djangoproject.com/
+-- MongoDB -- http://www.mongodb.org/
 -- MongoEngine and it's dependencies (PyMongo, etc.): http://mongoengine.org/
 -- python-twitter -- http://code.google.com/p/python-twitter/
 
@@ -10,7 +11,7 @@ Overview:
 
 A script -- collector.py -- passes a search to the Twitter search API and returns the latest 15 pages of results. Those results are parsed and stored in a Mongo document. The information that gets stored is: The tweet author and profile photo url, the date the tweet was authored, the tweet itself and an array of words in the tweet, stripped of unimportant words like the, a, an, etc. 
 
-To be determined: What to do with this information in a forward facing fashion?
+Included in the project is a sample settings file (from Django 1.3) and a sample view and template to visualize the data in a couple of simple ways.
 
 Examples of what can be done, using MongoEngine's ORM, using a search for PolitiFact on Twitter:
 
@@ -44,3 +45,14 @@ Examples of what can be done, using MongoEngine's ORM, using a search for Politi
 (u'rising', 0.0072143355829648922)
 (u'400', 0.0068652548289504598)
 
+Some basic documentation that assumes you have MongoDB running:
+
+First, edit collector.py, adding the right path to your project and a term to collect matching tweets.
+
+Second, edit settings.py to point to where your templates are.
+
+Third, run collector.py
+
+Fourth, if you're running this in development, run the development server and go to http://127.0.0.1:8000/
+
+Fifth, marvel. Stand agog.
